@@ -26,7 +26,6 @@
    ```
    http://localhost:8080/swagger/index.html
    ```
-```
 Для запуска тестирования:
 ```bash
 go test ./... -v
