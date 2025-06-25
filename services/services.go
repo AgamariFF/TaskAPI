@@ -7,21 +7,20 @@ import (
 )
 
 func Add(stor *task.TaskStorage, log *logger.Logger) (string, error) {
-	id := task.StartTask(stor).ID
+	id := task.CreateTask(stor).ID
 
 	return id, nil
 }
 
-func Get(stor *task.TaskStorage, log *logger.Logger, id string) (task.ResponseTask, error) {
+func Get(stor *task.TaskStorage, log *logger.Logger, id string) (task.Task, error) {
 	taskFind, exist := stor.GetTask(id)
 	if !exist {
 		err := fmt.Errorf("task not found with id: %s", id)
-		log.Error("Failed to get task. " + err.Error())
-		return task.ResponseTask{}, err
+		log.Error("Ошибка получения задания. " + err.Error())
+		return task.Task{}, err
 	}
-	taskResponse := task.TaskToResponseTask(*taskFind)
 
-	return taskResponse, nil
+	return *taskFind, nil
 }
 
 func Delete(stor *task.TaskStorage, log *logger.Logger, id string) error {

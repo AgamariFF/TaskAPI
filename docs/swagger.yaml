@@ -1,0 +1,79 @@
+definitions:
+  handlers.ResponseTask:
+    properties:
+      created_at:
+        description: 'example: 2025-06-25T10:00:00Z'
+        type: string
+      id:
+        description: 'example: a80f84a8-4841-46a8-bb3f-10d9f775c27a'
+        type: string
+      status:
+        description: 'example: in_progress'
+        type: string
+      time_duration:
+        description: 'example: 1h30m'
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /deletetask:
+    delete:
+      consumes:
+      - application/json
+      description: Удаляет задачу по ID
+      parameters:
+      - description: ID задачи
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Задача удалена
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Удаление задачи по ID
+      tags:
+      - tasks
+  /gettask:
+    get:
+      consumes:
+      - application/json
+      description: Возвращает информацию о задаче по её ID
+      parameters:
+      - description: ID задачи
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Информация о задаче
+          schema:
+            $ref: '#/definitions/handlers.ResponseTask'
+      summary: Получение задачи по ID
+      tags:
+      - tasks
+  /newtask:
+    post:
+      consumes:
+      - application/json
+      description: Создает новую задачу и возвращает её ID
+      produces:
+      - application/json
+      responses:
+        "202":
+          description: ID созданной задачи
+          schema:
+            type: string
+      summary: Создание новой задачи
+      tags:
+      - tasks
+swagger: "2.0"

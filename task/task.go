@@ -8,7 +8,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func StartTask(storage *TaskStorage) Task {
+func CreateTask(storage *TaskStorage) Task {
 	ctx, cancel := context.WithCancel(context.Background())
 	var task Task
 
@@ -25,12 +25,12 @@ func StartTask(storage *TaskStorage) Task {
 		}
 	}
 	storage.AddTask(task)
-	go executeTask(ctx, storage, task.ID)
+	go ExecuteTask(ctx, storage, task.ID)
 
 	return task
 }
 
-func executeTask(ctx context.Context, storage *TaskStorage, id string) {
+func ExecuteTask(ctx context.Context, storage *TaskStorage, id string) {
 	if task, ok := storage.GetTask(id); ok {
 		task.Status = "in_progress"
 		storage.AddTask(*task)

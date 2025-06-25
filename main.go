@@ -8,7 +8,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"TaskAPI/docs"
+
 	"github.com/gorilla/mux"
+	httpSwagger "github.com/swaggo/http-swagger"
 )
 
 func main() {
@@ -31,6 +34,15 @@ func main() {
 	log.Info("Запуск сервера на порте " + env["PORT"])
 
 	r := mux.NewRouter()
+
+	docs.SwaggerInfo.Title = "Task API"
+	docs.SwaggerInfo.Description = "API для управления задачами"
+	docs.SwaggerInfo.Version = "1.0"
+	docs.SwaggerInfo.Host = "localhost:8080"
+	docs.SwaggerInfo.BasePath = "/"
+	docs.SwaggerInfo.Schemes = []string{"http"}
+
+	r.PathPrefix("/swagger/").Handler(httpSwagger.WrapHandler)
 
 	r.HandleFunc("/newtask", handlers.HandlerNewTask(stor, log)).Methods("POST")
 	r.HandleFunc("/gettask", handlers.HandlerGetTask(stor, log)).Methods("GET")
